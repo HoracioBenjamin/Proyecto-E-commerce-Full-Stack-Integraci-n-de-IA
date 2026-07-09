@@ -1,0 +1,6 @@
+abrir servidor para usar en telefono, etc
+npm run dev -- -H 0.0.0.0
+
+para crear el tunel con ngrok
+ngrok http 3000
+
