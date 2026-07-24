@@ -1,5 +1,5 @@
-Resumen del Proyecto: E-commerce Full-Stack Moderno con Integración de Pagos y Copiloto de IA
-Este proyecto consiste en el diseño, desarrollo e implementación de una plataforma de comercio electrónico de alta fidelidad orientada al sector retail (ropa y calzado). El sistema destaca por una arquitectura limpia basada en componentes reactivos, un motor de base de datos relacional estrictamente normalizado, procesamiento asíncrono de pagos y automatización inteligente de inventario.
+E-commerce Full-Stack Moderno con Integración de Pagos, RAG Autónomo y Copiloto de IA
+Este proyecto consiste en el diseño, desarrollo e implementación de una plataforma de comercio electrónico de alta fidelidad orientada al sector retail (ropa y calzado). El sistema destaca por una arquitectura limpia basada en componentes reactivos, un motor de base de datos relacional con desnormalización estratégica para vectores, procesamiento asíncrono de pagos, y un asistente conversacional RAG (Retrieval-Augmented Generation) impulsado por LangChain y Google Gemini.
 
 1. Arquitectura del Frontend (React & Next.js)
 El cliente de la aplicación está construido utilizando Next.js bajo la arquitectura moderna de App Router (app/).
@@ -8,31 +8,59 @@ Renderizado Eficiente: Combina componentes de servidor (Server Components) para 
 
 Flujo del Checkout: El frontend empaqueta de forma segura la información logística del usuario (datos de envío, región, comuna) y el arreglo de productos seleccionados para despacharlos en una única petición HTTP POST hacia las APIs internas del servidor.
 
-2. Infraestructura del Backend y Base de Datos (Next.js APIs & Supabase)
+2. Infraestructura Backend y Base de Datos (Next.js APIs & Supabase)
 La lógica de servidor y el almacenamiento de datos se desacoplan utilizando herramientas serverless de última generación, garantizando alta disponibilidad y escalabilidad.
 
-Capa de Endpoints (API Routes): Rutas seguras (/api/checkout/mercadopago) actúan como intermediarias para procesar las solicitudes del cliente, manejar variables de entorno privadas (tokens de acceso) y comunicarse con servicios externos sin exponer credenciales en el navegador.
+Capa de Endpoints (API Routes): Rutas seguras (/api/checkout/mercadopago, /api/chat, /api/generate-embeddings) actúan como intermediarias para procesar las solicitudes del cliente, manejar variables de entorno privadas (tokens de acceso, llaves de API) y comunicarse con servicios externos sin exponer credenciales en el navegador.
 
-Persistencia Relacional Normalizada (Supabase / PostgreSQL): La base de datos fue diseñada bajo las reglas de normalización relacional, distribuyendo responsabilidades de forma atómica:
+Persistencia Relacional + PgVector (Supabase / PostgreSQL):
 
-pedidos: Actúa como el centro de control; almacena un Snapshot (captura histórica inalterable) del cliente (nombre, email, teléfono) al momento de la compra para auditorías, el total pagado y la llave foránea (metodo_pago_id).
+Tablas de Negocio: pedidos, detalles_pedido, envios, direcciones y metodos_pago manejan el ciclo de vida transaccional con esquemas estrictamente normalizados e historiales inalterables (snapshots logísticos).
 
-detalles_pedido: Maneja la relación 1-a-Muchos para guardar los productos de la orden con sus respectivas cantidades, precios unitarios y tallas.
+Optimización Vectorial (pgvector + metadata JSONB): Se incorporó un patrón de desnormalización estratégica mediante una columna metadata (JSONB) en la tabla productos. Esto encapsula relaciones de 1-a-N (tallas, stock, marcas, categorías) en una sola fila por producto, eliminando la necesidad de JOINs SQL costosos durante las búsquedas por similitud vectorial y evitando problemas de duplicación de filas en consultas con LIMIT.
 
-envios: Almacena de forma aislada el Snapshot logístico (dirección de destino exacta, región, comuna, costo de envío) protegiendo el historial en caso de que el usuario modifique sus datos en el futuro.
-
-direcciones y metodos_pago: Tablas catálogo y libretas de direcciones independientes vinculadas mediante Foreign Keys para optimizar el almacenamiento de perfiles registrados.
-
-3. Integración de Pasarela de Pagos y Procesamiento Asíncrono (Mercado Pago API)
-El flujo transaccional se integró siguiendo los estándares más seguros de la industria de la tecnología financiera.
+3. Integración de Pasarela de Pagos (Mercado Pago API)
+El flujo transaccional se integró siguiendo los estándares más seguros de la industria fintech.
 
 Preferencia Dinámica: Al procesar un carrito, el backend calcula montos, suma costos logísticos y genera una Preference en pesos chilenos (CLP) enviando el ID del pedido insertado previamente en Supabase con estado pendiente dentro del campo external_reference.
 
-Arquitectura de Webhooks (Servidor a Servidor): Para garantizar que el estado del pedido cambie de forma 100% confiable, se implementó una ruta de Webhook (/api/webhooks/mercadopago). Cuando Mercado Pago aprueba o rechaza una transacción, sus servidores notifican directamente a este endpoint de manera asíncrona. El sistema valida la veracidad del pago mediante el SDK oficial y actualiza Supabase a estado exitoso o erroneo de forma automatizada, independientemente de si el cliente cerró o no la pestaña de su navegador.
+Arquitectura de Webhooks (Servidor a Servidor): Para garantizar un cambio de estado 100% confiable, la ruta /api/webhooks/mercadopago procesa notificaciones asíncronas del estado del pago de forma automatizada mediante el SDK oficial, actualizando la base de datos sin importar si el cliente cerró el navegador.
 
-4. Próxima Implementación: Innovación con Inteligencia Artificial (Copiloto de Inventario)
-Como elemento diferenciador e innovador dentro del portafolio, se integrará un módulo de Inteligencia Artificial enfocado en la automatización de procesos internos del comercio (Backoffice).
+4. Motor de IA Conversacional (LangChain + Google Gemini 1.5/3.5)
+El sistema incluye un copiloto conversacional RAG autónomo integrado directamente en la tienda web (/api/chat).
 
-Tecnología (OpenAI GPT-4o con Visión): El administrador de la tienda podrá tomar una fotografía de cualquier prenda de ropa desde su teléfono celular al momento de recibir stock físico.
+A. Transición a Arquitectura LangChain Pura (SupabaseVectorStore)
+Se migró de un enfoque híbrido con llamadas directas a funciones RPC a una implementación de LangChain (LCEL - LangChain Expression Language) apoyada en SupabaseVectorStore:
 
-Procesamiento e Impacto Visual: La imagen se enviará codificada en Base64 hacia los modelos de visión de OpenAI. El modelo analizará la imagen nativamente y devolverá un objeto JSON estructurado con: un título comercial atractivo, una descripción de producto optimizada para SEO y las etiquetas/categorías correspondientes. Esto auto-completará el formulario de creación de productos en 3 segundos, logrando una demostración en vivo de alto impacto visual que valida la viabilidad del e-commerce inteligente en el mundo real.
+Generación de Embeddings: Utiliza el modelo text-embedding-001 de Google Gemini para convertir las consultas de los usuarios en vectores de 768 dimensiones.
+
+Recuperación Directa: Gracias a la columna pre-calculada metadata, el motor vectorial recupera contexto completo (nombre, precio, stock por talla, marca, categoría) en una sola consulta de sub-milisegundo.
+
+Pipeline Asíncrono LCEL: Una cadena declarativa (RunnableSequence) procesa la consulta, extrae el contexto vectorial, formatea las instrucciones con PromptTemplate y envía el prompt al modelo gemini-3.5-flash finalizando con un StringOutputParser.
+
+B. Capa de Seguridad y Defensa (AI Hardening)
+Para evitar abusos de uso, ataques de inyección de prompts y costos elevados de API, la ruta de chat implementa dos barreras de defensa:
+
+Sanitización de Entrada: Validación estricta del tipo de dato y limitación de longitud (< 250 caracteres) para bloquear payloads maliciosos o scripts automatizados.
+
+System Prompt Blindado: Instrucciones de comportamiento restringido que obligan al modelo a comportarse exclusivamente como un asistente de ventas de ropa, rechazando solicitudes de ejecución de código, revelación de configuración del sistema o temas ajenos al catálogo.
+
+5. Sincronización Automatizada de Datos (Triggers + Webhooks)
+Para mantener la consistencia entre clientes externos (ej. Dashboard Administrativo en Ionic) y la base de datos sin duplicar lógica de código, se implementó un flujo impulsado por eventos:
+
+[Dashboard Ionic] ──(INSERT)──> [PostgreSQL productos]
+                                        │
+                                        ├──> (Trigger) ──> Auto-construye JSONB 'metadata'
+                                        │
+                                        └──> (Webhook) ──> [Next.js /api/generate-embeddings] ──> [Gemini Embeddings] ──> Guarda Vector
+Triggers de PostgreSQL (BEFORE INSERT/UPDATE):
+
+Interceptan la creación o edición de un producto y resuelven automáticamente las relaciones (marcas, colores, categorías) construyendo el objeto metadata JSONB antes de guardar en disco.
+
+Un trigger secundario en la tabla stock propaga automáticamente los cambios de inventario hacia la columna metadata del producto padre.
+
+Supabase Database Webhooks:
+
+Al detectar un nuevo INSERT en la tabla productos, Supabase notifica de forma asíncrona mediante un Webhook a la API /api/generate-embeddings de Next.js.
+
+La API toma los productos que aún tienen embedding = NULL, genera sus vectores con Gemini de forma transparente y actualiza la columna embedding sin necesidad de exponer credenciales de IA en la app móvil/dashboard de Ionic.
