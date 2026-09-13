@@ -126,7 +126,7 @@ export default function CartDrawer() {
                         fontSize: '0.8rem',
                         fontWeight: 600,
                         '& .MuiSelect-select': { py: 0, pl: 0.5, pr: '18px !important', display: 'flex', alignItems: 'center' },
-                        '& .MuiSvgIcon-root': { fontSize: '1rem', color: '#000', right: -4 }
+                        '& .MuiSvgIcon-root': { fontSize: '1rem', color: '#002855', right: -4 }
                       }}
                       MenuProps={{
                         PaperProps: {
@@ -139,7 +139,7 @@ export default function CartDrawer() {
                               fontSize: '0.8rem',
                               py: 1,
                               justifyContent: 'center',
-                              '&.Mui-selected': { bgcolor: '#000 !important', color: '#fff' }
+                              '&.Mui-selected': { bgcolor: '#002855 !important', color: '#fff' }
                             }
                           }
                         }
@@ -246,7 +246,7 @@ export default function CartDrawer() {
 
       {/* Total Final */}
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Typography sx={{ fontWeight: 700, color: 'black', textTransform: 'uppercase', fontSize: '0.9rem', letterSpacing: '1px' }}>
+        <Typography sx={{ fontWeight: 700, color: '#002855', textTransform: 'uppercase', fontSize: '0.9rem', letterSpacing: '1px' }}>
           Total Estimado
         </Typography>
         <Typography sx={{ fontWeight: 800, fontSize: '1.3rem' }}>
@@ -263,13 +263,13 @@ export default function CartDrawer() {
         variant="contained" 
         onClick={handleCheckout}
         sx={{ 
-          bgcolor: 'black', 
+          bgcolor: '#002855', 
           color: 'white', 
           py: 2, 
           borderRadius: 0, 
           fontWeight: 700,
           letterSpacing: '2px',
-          '&:hover': { bgcolor: '#333' } 
+          '&:hover': { bgcolor: '#001E42' } 
         }}
       >
         FINALIZAR COMPRA
@@ -287,7 +287,7 @@ export default function CartDrawer() {
           letterSpacing: '1px',
           textTransform: 'uppercase',
           textDecoration: 'underline',
-          '&:hover': { bgcolor: 'transparent', color: 'black' } 
+          '&:hover': { bgcolor: 'transparent', color: '#002855' } 
         }}
       >
         Continuar comprando

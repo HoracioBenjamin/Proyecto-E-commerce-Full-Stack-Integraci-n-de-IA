@@ -16,7 +16,7 @@ export default function HeroSection() {
         textAlign: 'center',
         position: 'relative',
         overflow: 'hidden',
-        backgroundColor: '#000', // Fondo negro de seguridad mientras carga
+        backgroundColor: '#002855', // Fondo navy Vivo de seguridad mientras carga
       }}
     >
       {/* IMAGEN COMO ELEMENTO HIJO ANIMADO */}
@@ -48,7 +48,7 @@ export default function HeroSection() {
           left: 0,
           width: '100%',
           height: '100%',
-          backgroundColor: 'rgba(0, 0, 0, 0.3)', 
+          backgroundColor: 'rgba(0, 40, 85, 0.55)', 
           zIndex: 1
         }}
       />
@@ -63,27 +63,26 @@ export default function HeroSection() {
         <Typography 
           variant="h1" 
           sx={{ 
-            fontFamily: 'serif', 
-            fontWeight: 300, 
-            fontSize: { xs: '3rem', md: '5rem' },
-            fontStyle: 'italic',
+            fontWeight: 800, 
+            fontSize: { xs: '2.6rem', md: '4.5rem' },
             mb: 2,
             color: '#fff',
+            letterSpacing: '0.02em',
             textShadow: '0px 4px 20px rgba(0,0,0,0.5)'
           }}
         >
-          L'Ancora di Horacio
+          WearShop
         </Typography>
         
         <Typography 
           variant="overline" 
           sx={{ 
             letterSpacing: '0.5em', 
-            color: 'rgba(255,255,255,0.9)',
-            fontWeight: 500
+            color: '#FFB800',
+            fontWeight: 700
           }}
         >
-          Colección Primavera Verano 2026
+          Catálogo ShoesDuoc 2026
         </Typography>
       </motion.div>
     </Box>

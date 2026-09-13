@@ -86,10 +86,10 @@ export default function OrderSummary({ cart, total, formatPrice, removeFromCart,
 
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 1, mb: 3 }}>
             <Typography variant="h6" sx={{ fontWeight: 700, fontSize: '1.1rem', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Total a pagar:</Typography>
-            <Typography variant="h5" sx={{ fontWeight: 800, color: '#000' }}>{formatPrice(total)}</Typography>
+            <Typography variant="h5" sx={{ fontWeight: 800, color: '#002855' }}>{formatPrice(total)}</Typography>
           </Box>
 
-          <Button fullWidth variant="contained" onClick={() => setStep(2)} sx={{ bgcolor: 'black', py: 2.5, borderRadius: 0, fontWeight: 700, letterSpacing: 2, '&:hover': { bgcolor: '#333' } }}>
+          <Button fullWidth variant="contained" onClick={() => setStep(2)} sx={{ bgcolor: '#002855', py: 2.5, borderRadius: 0, fontWeight: 700, letterSpacing: 2, '&:hover': { bgcolor: '#001E42' } }}>
             CONTINUAR CON EL ENVÍO
           </Button>
         </>

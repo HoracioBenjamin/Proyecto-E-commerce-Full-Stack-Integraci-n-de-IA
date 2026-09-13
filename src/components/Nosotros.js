@@ -40,7 +40,7 @@ export default function AboutUsSection() {
               color: '#ffffff'
             }}
           >
-            Sobre Mí
+            Sobre WEARSHOP
           </Typography>
 
           <Typography 
@@ -54,8 +54,8 @@ export default function AboutUsSection() {
               mx: 'auto'
             }}
           >
-              Esta plataforma web fue diseñada y programada completamente desde cero (End-to-End) con el objetivo de consolidar y demostrar mis capacidades como Desarrollador Full-Stack y mi especialización en la integración de Inteligencia Artificial aplicada a negocios.
-              De forma 100% autónoma y sin recurrir a plantillas, construí la arquitectura completa del Frontend y Backend, la gestión de bases de datos relacionales y la integración de pasarelas de pago y logística. Actualmente, el proyecto destaca por la implementación de dos módulos avanzados de IA (en desarrollo activo)
+              Somos una marca urbana de zapatillas y ropa buscando siempre los mejores productos y las tendencias. En shoesDuoc nunca faltara tu talla, siempre tendremos stock para la tuya!
+              compra y recomiendanos
         </Typography>
 
         </Box>

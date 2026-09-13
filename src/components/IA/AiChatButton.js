@@ -19,11 +19,12 @@ export default function AiChatButton({ isOpen, onToggle }) {
           }
         }}
         sx={{
-          bgcolor: 'black',
+          bgcolor: '#002855',
           color: 'white',
           width: 60,
           height: 60,
-          '&:hover': { bgcolor: '#333' },
+          border: '2px solid #FFB800',
+          '&:hover': { bgcolor: '#001E42' },
           '@keyframes pulse': {
             '0%': { boxShadow: '0 0 0 0 rgba(0, 158, 227, 0.7)' },
             '70%': { boxShadow: '0 0 0 15px rgba(0, 158, 227, 0)' },

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="ShoesDuoc favicon">
+  <rect x="0" y="0" width="64" height="64" rx="12" fill="#002855"/>
+  <rect x="0" y="0" width="20" height="64" rx="0" fill="#FFB800"/>
+  <rect x="12" y="0" width="8" height="64" fill="#FFB800"/>
+  <!-- sneaker silhouette white -->
+  <g fill="#FFFFFF">
+    <path d="M14 40c-1.6 0-2.6-1.1-2.9-2.6l-.2-1.2c-.1-.8.4-1.5 1.2-1.6l3.1-.5 2.6-4.7c.5-1 1.6-1.5 2.7-1.3l1.5.3 8.9 3.4 9.4 2.1c2.9.7 5 1.3 6.6 2.5 1.3 1 2.1 2.6 2.1 4.2v1.4c0 1.1-.9 2-2 2H14z"/>
+    <rect x="14" y="42.5" width="34" height="2.6" rx="1.3" fill="#FFB800"/>
+    <circle cx="24" cy="33.5" r="1.1" fill="#002855"/>
+    <circle cx="27.5" cy="34.5" r="1.1" fill="#002855"/>
+    <circle cx="31" cy="35.5" r="1.1" fill="#002855"/>
+  </g>
+</svg>

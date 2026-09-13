@@ -88,11 +88,11 @@ export default function AiChatWindow({
         }}
       >
         {/* Cabecera (Sin Cambios) */}
-        <Box sx={{ bgcolor: 'black', color: 'white', p: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Box sx={{ bgcolor: '#002855', color: 'white', p: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #FFB800' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-            <AutoAwesomeIcon sx={{ color: '#009EE3', fontSize: 20 }} />
+            <AutoAwesomeIcon sx={{ color: '#FFB800', fontSize: 20 }} />
             <Typography sx={{ fontWeight: 600, fontSize: '15px' }}>
-              Asistente de Estilo AI
+              Asistente ShoesDuoc AI
             </Typography>
           </Box>
           <IconButton size="small" onClick={onClose} sx={{ color: 'white', opacity: 0.7, '&:hover': { opacity: 1 } }}>

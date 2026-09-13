@@ -20,12 +20,20 @@ export default function MenuDrawer({ open, onClose }) {
       }}
     >
       {/* Botón para cerrar */}
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 4 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
         <IconButton onClick={onClose}>
           <CloseIcon />
         </IconButton>
       </Box>
-      <Typography variant="h5" sx={{ letterSpacing: '0.3em', mb: 4, letterSpacing: '0.2em', textAlign: 'center' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
+        <Box
+          component="img"
+          src="/images/logo-shoesduoc-navy.svg"
+          alt="ShoesDuoc — WearShop"
+          sx={{ height: 36, width: 'auto' }}
+        />
+      </Box>
+      <Typography variant="h5" sx={{ letterSpacing: '0.2em', mb: 4, textAlign: 'center', color: '#002855', fontWeight: 700 }}>
         Cuenta
       </Typography>
 
@@ -37,7 +45,8 @@ export default function MenuDrawer({ open, onClose }) {
               sx={{ 
                 py: 2, 
                 textAlign: 'center',
-                '&:hover': { backgroundColor: 'rgba(0,0,0,0.03)' }
+                color: '#002855',
+                '&:hover': { backgroundColor: 'rgba(0,40,85,0.05)' }
               }}
             >
               <ListItemText 

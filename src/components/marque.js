@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 
 export default function GoldMarquee() {
   return (
-    <Box sx={{ backgroundColor: '#1a1f3f' }}>
+    <Box sx={{ backgroundColor: '#002855', borderTop: '2px solid #FFB800', borderBottom: '2px solid #FFB800' }}>
       <Box sx={{ paddingTop: 2, paddingBottom: 2, overflow: 'hidden' }}>
         <motion.div
           animate={{ x: [0, -1000] }}
@@ -16,7 +16,6 @@ export default function GoldMarquee() {
               key={i}
               variant="h2"
               sx={{
-                fontFamily: 'serif',
                 fontWeight: 800,
                 whiteSpace: 'nowrap',
                 letterSpacing: '0.1em',
@@ -28,22 +27,20 @@ export default function GoldMarquee() {
                 filter: 'drop-shadow(0px 4px 6px rgba(0,0,0,0.1))',
               }}
             >
-              {/* Emoji Izquierdo */}
-              <span style={{ WebkitTextFillColor: 'initial', background: 'none' }}>🇺🇸</span>
+              {/* Acento Vivo izquierdo */}
+              <span style={{ WebkitTextFillColor: '#FFB800', background: 'none' }}>◆</span>
 
-              {/* TEXTO CON EFECTO LIQUID GLASS */}
+              {/* TEXTO CON EFECTO SHIMMER VIVO */}
               <span
                 style={{
                   margin: '0 20px',
                   background: `linear-gradient(
                     110deg, 
-                    #e0e0e0 0%, 
-                    #ffffff 20%, 
-                    #b0b0b0 40%, 
-                    #ffffff 50%, 
-                    #b0b0b0 60%, 
-                    #ffffff 80%, 
-                    #e0e0e0 100%
+                    #FFB800 0%, 
+                    #ffffff 25%, 
+                    #FFB800 50%, 
+                    #ffffff 75%, 
+                    #FFB800 100%
                   )`,
                   backgroundSize: '200% auto',
                   WebkitBackgroundClip: 'text',
@@ -51,11 +48,11 @@ export default function GoldMarquee() {
                   animation: 'shimmer 5s linear infinite',
                 }}
               >
-                EA7 - LOUIS VUITTON - GUCCI - COACH - AMERICAN EAGLE - BALMAIN - KARL LAGERFELD -  
+                WEARSHOP - URBANO - SKATE - RUNNING - EDICIÓN ESPECIAL -  
               </span>
 
-              {/* Emoji Derecho */}
-              <span style={{ WebkitTextFillColor: 'initial', background: 'none' }}>🇨🇱</span>
+              {/* Acento Vivo derecho */}
+              <span style={{ WebkitTextFillColor: '#FFB800', background: 'none' }}>◆</span>
 
               <style jsx global>{`
                 @keyframes shimmer {

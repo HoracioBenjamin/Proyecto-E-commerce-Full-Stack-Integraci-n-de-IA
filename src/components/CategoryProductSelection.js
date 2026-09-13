@@ -70,7 +70,7 @@ export default function ProductSelection() {
         <Link href="/productos/todos" style={{ textDecoration: 'none', color: 'inherit' }}>
           <Typography 
             variant="button" 
-            sx={{ borderBottom: '1px solid black', cursor: 'pointer', pb: 0.5 }}
+            sx={{ borderBottom: '2px solid #FFB800', cursor: 'pointer', pb: 0.5 }}
           >
             Ver todo
           </Typography>

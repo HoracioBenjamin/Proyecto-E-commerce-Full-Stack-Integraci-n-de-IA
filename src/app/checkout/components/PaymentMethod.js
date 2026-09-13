@@ -12,7 +12,7 @@ export default function PaymentMethod({
   const esMercadoPago = metodoPago === 'mercadopago';
   
   const buttonStyles = {
-    bgcolor: esMercadoPago ? '#009EE3' : 'black',
+    bgcolor: esMercadoPago ? '#009EE3' : '#002855',
     color: 'white',
     py: 2.5,
     borderRadius: esMercadoPago ? '6px' : 0, 
@@ -22,7 +22,7 @@ export default function PaymentMethod({
     fontSize: esMercadoPago ? '16px' : '14px',
     transition: 'all 0.2s ease',
     '&:hover': { 
-      bgcolor: esMercadoPago ? '#0081ba' : '#333' 
+      bgcolor: esMercadoPago ? '#0081ba' : '#001E42' 
     }
   };
 
@@ -50,7 +50,7 @@ export default function PaymentMethod({
             >
               <FormControlLabel
                 value="mercadopago"
-                control={<Radio sx={{color: esMercadoPago ? '#009EE3' : 'black', '&.Mui-checked': {color: '#009EE3'}}} />}
+                control={<Radio sx={{color: esMercadoPago ? '#009EE3' : '#002855', '&.Mui-checked': {color: '#009EE3'}}} />}
                 label={
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     <Typography sx={{fontWeight: 600, color: esMercadoPago ? '#009EE3' : 'inherit'}}>Mercado Pago</Typography>
@@ -72,9 +72,9 @@ export default function PaymentMethod({
             </Box>
             
             {/* Opción: Webpay */}
-            <Box sx={{ border: '1px solid', borderColor: metodoPago === 'webpay' ? 'black' : '#eee', p: 2, borderRadius: '4px', cursor: 'pointer' }}>
+            <Box sx={{ border: '1px solid', borderColor: metodoPago === 'webpay' ? '#002855' : '#eee', p: 2, borderRadius: '4px', cursor: 'pointer' }}>
               <FormControlLabel 
-                value="webpay" control={<Radio sx={{color: 'black', '&.Mui-checked': {color: 'black'}}} />} 
+                value="webpay" control={<Radio sx={{color: '#002855', '&.Mui-checked': {color: '#002855'}}} />} 
                 label={
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     <Typography sx={{fontWeight: 600}}>Webpay Plus (Transbank)</Typography>

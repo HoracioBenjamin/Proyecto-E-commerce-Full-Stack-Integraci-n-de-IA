@@ -25,8 +25,8 @@ export default function PagoPendientePage() {
             variant="contained" 
             onClick={() => router.push('/')}
             sx={{ 
-              bgcolor: 'black', py: 1.5, px: 4, borderRadius: 0, fontWeight: 700,
-              letterSpacing: 2, '&:hover': { bgcolor: '#333' } 
+              bgcolor: '#002855', py: 1.5, px: 4, borderRadius: 0, fontWeight: 700,
+              letterSpacing: 2, '&:hover': { bgcolor: '#001E42' } 
             }}
           >
             IR AL INICIO

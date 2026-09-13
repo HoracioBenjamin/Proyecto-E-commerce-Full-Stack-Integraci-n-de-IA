@@ -46,15 +46,15 @@ export default function OfertasPage() {
         
         {/* ENCABEZADO */}
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 6 }}>
-          <IconButton onClick={() => router.back()} sx={{ color: 'black' }}>
+          <IconButton onClick={() => router.back()} sx={{ color: '#002855' }}>
             <ArrowBackIosNewIcon sx={{ fontSize: '1.2rem' }} />
           </IconButton>
 
           <Typography 
             variant="h5" 
             sx={{ 
-              fontFamily: 'serif', 
-              fontWeight: 300, 
+              fontWeight: 700,
+              color: '#002855',
               letterSpacing: '4px', 
               textTransform: 'uppercase', 
               textAlign: 'center', 
@@ -65,14 +65,15 @@ export default function OfertasPage() {
             OFERTAS EXCLUSIVAS
           </Typography>
 
-          <IconButton onClick={() => toggleCart(true)} sx={{ color: 'black' }}>
+          <IconButton onClick={() => toggleCart(true)} sx={{ color: '#002855' }}>
             <Badge 
               badgeContent={cart.length} 
               sx={{ 
                 '& .MuiBadge-badge': { 
-                  bgcolor: 'black', 
-                  color: 'white',
-                  fontSize: '0.65rem'
+                  bgcolor: '#FFB800', 
+                  color: '#002855',
+                  fontSize: '0.65rem',
+                  fontWeight: 700
                 } 
               }}
             >

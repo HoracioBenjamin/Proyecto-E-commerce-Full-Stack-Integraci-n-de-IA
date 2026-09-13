@@ -93,38 +93,45 @@ export default function RegisterPage() {
   return (
     <Box sx={{ 
       minHeight: '100vh', 
-      bgcolor: '#fbfbfb', 
+      bgcolor: '#F2F4F7', 
       display: 'flex', 
-      alignItems: 'center', 
+      alignItems: 'flex-start', 
       justifyContent: 'center',
-      pt: 12, 
+      pt: 4, 
       pb: 6
     }}>
-      <Container maxWidth="sm">
+      <Container maxWidth="sm" sx={{ mt: { xs: 2, md: 4 } }}>
         <Paper 
           elevation={0} 
           sx={{ 
             p: { xs: 3, md: 5 }, 
             border: '1px solid #ececec', 
+            borderTop: '4px solid #FFB800',
             borderRadius: '8px',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center'
           }}
         >
+          <Box
+            component="img"
+            src="/images/logo-duocuc-light.jpg"
+            alt="Duoc UC"
+            sx={{ height: 44, width: 'auto', mb: 2 }}
+          />
           <Typography 
             variant="h5" 
             sx={{ 
-              fontFamily: 'serif', 
               letterSpacing: '0.1em', 
-              fontWeight: 500,
+              fontWeight: 700,
+              color: '#002855',
               mb: 1
             }}
           >
             CREAR CUENTA
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 4, textAlign: 'center' }}>
-            Únete a Horacio's para disfrutar de una experiencia de compra rápida y personalizada.
+            Únete a WearShop para disfrutar de una experiencia de compra rápida y personalizada.
           </Typography>
 
           {error && (
@@ -135,7 +142,7 @@ export default function RegisterPage() {
 
           <Box component="form" onSubmit={handleRegister} sx={{ width: '100%' }}>
             <Grid container spacing={3}>
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, sm: 6 }}>
                 <TextField
                   required
                   fullWidth
@@ -148,7 +155,7 @@ export default function RegisterPage() {
                   disabled={loading}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, sm: 6 }}>
                 <TextField
                   required
                   fullWidth
@@ -162,7 +169,7 @@ export default function RegisterPage() {
                 />
               </Grid>
 
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, sm: 6 }}>
                 <TextField
                   required
                   fullWidth
@@ -176,7 +183,7 @@ export default function RegisterPage() {
                   disabled={loading}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, sm: 6 }}>
                 <TextField
                   required
                   fullWidth
@@ -192,7 +199,7 @@ export default function RegisterPage() {
                 />
               </Grid>
 
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <TextField
                   required
                   fullWidth
@@ -207,7 +214,7 @@ export default function RegisterPage() {
                 />
               </Grid>
 
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, sm: 6 }}>
                 <TextField
                   required
                   fullWidth
@@ -221,7 +228,7 @@ export default function RegisterPage() {
                   disabled={loading}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, sm: 6 }}>
                 <TextField
                   required
                   fullWidth
@@ -244,14 +251,14 @@ export default function RegisterPage() {
               disabled={loading}
               sx={{ 
                 mt: 5,
-                bgcolor: '#1a1f3f',
+                bgcolor: '#002855',
                 color: '#fff',
                 py: 1.5,
                 borderRadius: 0,
                 letterSpacing: 2,
                 fontWeight: 600,
-                '&:hover': { bgcolor: '#12162d' },
-                '&.Mui-disabled': { bgcolor: '#9aa0b8', color: '#fff' }
+                '&:hover': { bgcolor: '#001E42' },
+                '&.Mui-disabled': { bgcolor: '#9AA8C3', color: '#fff' }
               }}
             >
               {loading ? <CircularProgress size={24} color="inherit" /> : 'REGISTRARME'}
@@ -262,7 +269,7 @@ export default function RegisterPage() {
             <Typography variant="body2" color="text.secondary">
               ¿Ya tienes una cuenta?{' '}
               <Link href="/login" passHref legacyBehavior>
-                <MuiLink underline="always" sx={{ color: '#1a1f3f', fontWeight: 600 }}>
+                <MuiLink underline="always" sx={{ color: '#002855', fontWeight: 600 }}>
                   Inicia sesión aquí
                 </MuiLink>
               </Link>

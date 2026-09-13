@@ -48,11 +48,11 @@ export default function ToastNotification({ message, visible, onClose }) {
               WebkitBackdropFilter: 'blur(15px) saturate(180%)', // Soporte Safari
               border: '1px solid rgba(255, 255, 255, 0.3)', // Borde sutil
               boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.08)', // Sombra suave
-              color: '#000', // Texto negro para contraste
+              color: '#002855', // Azul Vivo para contraste
               // ----------------------------
             }}
           >
-            <ErrorIcon sx={{ fontSize: '1.2rem', color: '#000' }} />
+            <ErrorIcon sx={{ fontSize: '1.2rem', color: '#002855' }} />
             <Typography 
               variant="body2" 
               sx={{ 

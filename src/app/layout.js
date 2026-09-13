@@ -18,8 +18,16 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "TuPagina | Sitio Oficial",
-  description: "Created by: Horacio Vergara",
+  title: "WearShop | ShoesDuoc",
+  description: "WearShop — E-Commerce & Retail Analytics | Duoc UC Sede Puente Alto",
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon-32.png", type: "image/png", sizes: "32x32" },
+      { url: "/favicon-16.png", type: "image/png", sizes: "16x16" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 const inter = Inter({ subsets: ["latin"] });

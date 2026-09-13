@@ -48,10 +48,10 @@ export default function BalancedHeader({ activeTab, setActiveTab }) {
   return (
     <Box 
       sx={{ 
-        bgcolor: '#1a1f3f', 
+        bgcolor: '#002855', 
         color: '#fff', 
         py: 2, 
-        borderBottom: '1px solid rgba(255,255,255,0.1)' 
+        borderBottom: '2px solid #FFB800' 
       }}
     >
       <Container maxWidth="lg">
@@ -61,7 +61,7 @@ export default function BalancedHeader({ activeTab, setActiveTab }) {
           <Box sx={{ flex: 1}}>
             <Search>
               <SearchIconWrapper><SearchIcon /></SearchIconWrapper>
-              <StyledInputBase placeholder="¿Buscas algo especial?..." />
+              <StyledInputBase placeholder="Buscar modelo, marca, talla..." />
             </Search>
           </Box>
 
@@ -79,7 +79,7 @@ export default function BalancedHeader({ activeTab, setActiveTab }) {
                     sx={{
                       background: 'none',
                       border: 'none',
-                      color: activeTab === item ? '#fff' : 'rgba(255,255,255,0.5)',
+                      color: activeTab === item ? '#FFB800' : 'rgba(255,255,255,0.65)',
                       cursor: 'pointer',
                       fontFamily: 'serif',
                       fontSize: '0.95rem',
@@ -93,8 +93,8 @@ export default function BalancedHeader({ activeTab, setActiveTab }) {
                         bottom: -5,
                         left: 0,
                         width: activeTab === item ? '100%' : '0%',
-                        height: '1.5px',
-                        bgcolor: '#fff',
+                        height: '2px',
+                        bgcolor: '#FFB800',
                         transition: 'width 0.3s'
                       }
                     }}
@@ -120,8 +120,9 @@ export default function BalancedHeader({ activeTab, setActiveTab }) {
                   sx={{ 
                     '& .MuiBadge-badge': { 
                       fontSize: '0.65rem', 
-                      bgcolor: '#fff', 
-                      color: '#1a1f3f' 
+                      bgcolor: '#FFB800', 
+                      color: '#002855',
+                      fontWeight: 700
                     } 
                   }}
                 >

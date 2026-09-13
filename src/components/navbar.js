@@ -73,11 +73,11 @@ export default function GucciNavbar() {
           top: 0,
           width: '100%',
           zIndex: 1100,
-          backgroundColor: 'rgba(26, 31, 63, 0.85)', 
+          backgroundColor: '#002855',
           backdropFilter: 'blur(20px)', 
           webkitBackdropFilter: 'blur(20px)',
           color: '#fff', 
-          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+          borderBottom: '2px solid #FFB800',
           transition: 'all 0.3s ease-in-out', 
         }}
       >
@@ -107,7 +107,7 @@ export default function GucciNavbar() {
                 >
                   <SearchIcon sx={{ fontSize: '1.2rem', mr: 1, color: 'rgba(255,255,255,0.6)' }} />
                   <InputBase
-                    placeholder="¿Buscas algo especial?..."
+                    placeholder="Buscar modelo, marca, talla..."
                     sx={{ color: 'inherit', fontSize: '0.85rem', width: '100%', '& .MuiInputBase-input': { padding: 0 } }}
                   />
                 </Box>
@@ -121,21 +121,13 @@ export default function GucciNavbar() {
 
           {/* 2. CENTRO: Logo */}
           <Box sx={{ flex: 2, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <Link href="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-              <Typography 
-                variant="h4" 
-                sx={{ 
-                  fontFamily: 'serif', 
-                  letterSpacing: '0.2em', 
-                  fontWeight: 500,
-                  fontSize: { xs: '0.85rem', sm: '1.2rem', md: '1.8rem' },
-                  cursor: 'pointer', 
-                  whiteSpace: 'nowrap',
-                  textAlign: 'center'
-                }}
-              >
-                🇺🇸 HORACIO´S 🇨🇱
-              </Typography>
+            <Link href="/" style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center' }}>
+              <Box
+                component="img"
+                src="/images/logo-shoesduoc.svg"
+                alt="ShoesDuoc — WearShop"
+                sx={{ height: { xs: 30, md: 40 }, width: 'auto', display: 'block' }}
+              />
             </Link>
           </Box>
 
@@ -211,7 +203,7 @@ export default function GucciNavbar() {
                 <Badge 
                   badgeContent={cart.length} 
                   color="primary" 
-                  sx={{ '& .MuiBadge-badge': { fontSize: '0.65rem', bgcolor: '#fff', color: '#1a1f3f' } }}
+                  sx={{ '& .MuiBadge-badge': { fontSize: '0.65rem', bgcolor: '#FFB800', color: '#002855', fontWeight: 700 } }}
                 >
                   <ShoppingBagOutlinedIcon />
                 </Badge>

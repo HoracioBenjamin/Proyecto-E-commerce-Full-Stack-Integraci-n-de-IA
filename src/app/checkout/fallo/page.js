@@ -25,8 +25,8 @@ export default function PagoFallidoPage() {
             variant="contained" 
             onClick={() => router.push('/checkout')} // Lo mandamos de vuelta al carrito para reintentar
             sx={{ 
-              bgcolor: 'black', py: 1.5, px: 4, borderRadius: 0, fontWeight: 700,
-              letterSpacing: 2, '&:hover': { bgcolor: '#333' } 
+              bgcolor: '#002855', py: 1.5, px: 4, borderRadius: 0, fontWeight: 700,
+              letterSpacing: 2, '&:hover': { bgcolor: '#001E42' } 
             }}
           >
             REINTENTAR COMPRA

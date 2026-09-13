@@ -105,6 +105,16 @@ export default function ProductoDetalle() {
 return (
     <Box sx={{ bgcolor: '#fff', minHeight: '100vh', pt: { xs: 0, md: 6 }, pb: 10 }}>
       <Container maxWidth="lg">
+        {/* Volver minimalista */}
+        <Box sx={{ display: 'flex', justifyContent: 'flex-start', mb: { xs: 1, md: 3 } }}>
+          <IconButton
+            onClick={() => router.back()}
+            aria-label="Volver"
+            sx={{ color: '#002855', '&:hover': { bgcolor: 'rgba(0,40,85,0.05)' } }}
+          >
+            <ArrowBackIosNewIcon sx={{ fontSize: '1.2rem' }} />
+          </IconButton>
+        </Box>
         <Grid 
           container 
           spacing={{ xs: 0, md: 8 }} 
@@ -112,7 +122,7 @@ return (
           sx={{ flexWrap: { md: 'nowrap' }, display: 'flex' }}
         >
           {/* COLUMNA IZQUIERDA: IMAGEN */}
-          <Grid item xs={12} md={6} sx={{ width: '100%', maxWidth: { md: '50%' }, flexBasis: { md: '50%' } }}>
+          <Grid size={{ xs: 12, md: 6 }} sx={{ width: '100%', maxWidth: { md: '50%' }, flexBasis: { md: '50%' } }}>
             <Box 
               onClick={handleToggleModal} // <-- Abrir al hacer click
               sx={{ 
@@ -136,7 +146,7 @@ return (
           </Grid>
 
           {/* COLUMNA DERECHA: DATOS (Siempre a la derecha en PC) */}
-          <Grid item xs={12} md={6} sx={{ 
+          <Grid size={{ xs: 12, md: 6 }} sx={{ 
             width: '100%',
             maxWidth: { md: '50%' }, 
             flexBasis: { md: '50%' } 

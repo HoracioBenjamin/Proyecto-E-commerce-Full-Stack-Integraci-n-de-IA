@@ -61,7 +61,7 @@ export default function AddToCartButton({ producto, tallaSeleccionada }) {
           zIndex: 50,
           bgcolor: tieneStock ? 'rgba(255, 255, 255, 0.4)' : 'rgba(200, 200, 200, 0.1)',
           backdropFilter: 'blur(8px)',
-          color: tieneStock ? '#000' : '#ccc',
+          color: tieneStock ? '#002855' : '#ccc',
           border: '1px solid rgba(255, 255, 255, 0.5)',
           boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
           opacity: { xs: 1, md: 0 }, 

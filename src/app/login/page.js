@@ -61,39 +61,46 @@ export default function LoginPage() {
   return (
     <Box sx={{ 
       minHeight: '100vh', 
-      bgcolor: '#fbfbfb', 
+      bgcolor: '#F2F4F7', 
       display: 'flex', 
-      alignItems: 'center', 
+      alignItems: 'flex-start', 
       justifyContent: 'center',
-      pt: 10, 
+      pt: 4, 
       pb: 4
     }}>
-      <Container maxWidth="xs">
+      <Container maxWidth="xs" sx={{ mt: { xs: 2, md: 4 } }}>
         <Paper 
           elevation={0} 
           sx={{ 
             p: { xs: 3, md: 5 }, 
             border: '1px solid #ececec', 
+            borderTop: '4px solid #FFB800',
             borderRadius: '8px',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center'
           }}
         >
+          <Box
+            component="img"
+            src="/images/logo-duocuc-light.jpg"
+            alt="Duoc UC"
+            sx={{ height: 44, width: 'auto', mb: 2 }}
+          />
           {/* Título */}
           <Typography 
             variant="h5" 
             sx={{ 
-              fontFamily: 'serif', 
               letterSpacing: '0.1em', 
-              fontWeight: 500,
+              fontWeight: 700,
+              color: '#002855',
               mb: 1
             }}
           >
             INICIAR SESIÓN
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 4, textAlign: 'center' }}>
-            Ingresa a tu cuenta de Horacio's para gestionar tus pedidos y guardar tus favoritos.
+            Ingresa a tu cuenta de WearShop para gestionar tus pedidos y guardar tus favoritos.
           </Typography>
 
           {/* Alerta de Error */}
@@ -140,14 +147,14 @@ export default function LoginPage() {
               variant="contained"
               disabled={loading}
               sx={{ 
-                bgcolor: '#1a1f3f', 
+                bgcolor: '#002855', 
                 color: '#fff',
                 py: 1.5,
                 borderRadius: 0,
                 letterSpacing: 2,
                 fontWeight: 600,
-                '&:hover': { bgcolor: '#12162d' },
-                '&.Mui-disabled': { bgcolor: '#9aa0b8', color: '#fff' }
+                '&:hover': { bgcolor: '#001E42' },
+                '&.Mui-disabled': { bgcolor: '#9AA8C3', color: '#fff' }
               }}
             >
               {loading ? <CircularProgress size={24} color="inherit" /> : 'INGRESAR'}
@@ -162,7 +169,7 @@ export default function LoginPage() {
             <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
               ¿No tienes una cuenta?{' '}
               {/* Enlace corregido sin legacyBehavior */}
-              <MuiLink component={Link} href="/registro" underline="always" sx={{ color: '#1a1f3f', fontWeight: 600 }}>
+              <MuiLink component={Link} href="/registro" underline="always" sx={{ color: '#002855', fontWeight: 600 }}>
                 Regístrate aquí
               </MuiLink>
             </Typography>

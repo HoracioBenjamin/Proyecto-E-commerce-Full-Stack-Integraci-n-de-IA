@@ -6,7 +6,15 @@
 
   --background: #ffffff;
 
-  --foreground: #171717;
+  --foreground: #002855;
+
+  --vivo-navy: #002855;
+
+  --vivo-navy-dark: #001E42;
+
+  --vivo-yellow: #FFB800;
+
+  --vivo-app-bg: #F2F4F7;
 
 }
 
@@ -30,9 +38,9 @@
 
   :root {
 
-    --background: #0a0a0a;
+    --background: #ffffff;
 
-    --foreground: #ededed;
+    --foreground: #002855;
 
   }
 

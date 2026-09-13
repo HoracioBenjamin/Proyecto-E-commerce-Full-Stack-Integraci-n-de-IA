@@ -63,7 +63,7 @@ export default function CategoriaPage() {
         }}>
           <IconButton 
             onClick={() => router.back()} 
-            sx={{ color: 'black', '&:hover': { bgcolor: 'rgba(0,0,0,0.05)' } }}
+            sx={{ color: '#002855', '&:hover': { bgcolor: 'rgba(0,40,85,0.05)' } }}
           >
             <ArrowBackIosNewIcon sx={{ fontSize: '1.2rem' }} />
           </IconButton>
@@ -71,8 +71,8 @@ export default function CategoriaPage() {
           <Typography 
             variant="h5" 
             sx={{ 
-              fontFamily: 'serif',
-              fontWeight: 300, 
+              fontWeight: 700,
+              color: '#002855',
               letterSpacing: '4px', 
               textTransform: 'uppercase',
               textAlign: 'center',
@@ -85,14 +85,14 @@ export default function CategoriaPage() {
 
           <IconButton 
             onClick={() => toggleCart(true)} 
-            sx={{ color: 'black', '&:hover': { bgcolor: 'rgba(0,0,0,0.05)' } }}
+            sx={{ color: '#002855', '&:hover': { bgcolor: 'rgba(0,40,85,0.05)' } }}
           >
             <Badge 
               badgeContent={cart.length} 
               sx={{ 
                 '& .MuiBadge-badge': { 
                   fontSize: '0.6rem', height: 16, padding: '0 4px',
-                  minWidth: 16, bgcolor: 'black', color: 'white'
+                  minWidth: 16, bgcolor: '#FFB800', color: '#002855', fontWeight: 700
                 } 
               }}
             >
@@ -137,15 +137,15 @@ export default function CategoriaPage() {
                 boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.07)',
               },
               '& .MuiPaginationItem-root': {
-                color: '#333',
+                color: '#002855',
                 transition: 'all 0.3s ease',
                 '&:hover': {
-                  bgcolor: 'rgba(0, 0, 0, 0.05)',
+                  bgcolor: 'rgba(0, 40, 85, 0.05)',
                   transform: 'translateY(-2px)',
                 },
                 '&.Mui-selected': {
-                  bgcolor: 'rgba(0, 0, 0, 0.08)',
-                  color: '#000',
+                  bgcolor: '#002855',
+                  color: '#fff',
                   fontWeight: 'bold',
                 }
               }

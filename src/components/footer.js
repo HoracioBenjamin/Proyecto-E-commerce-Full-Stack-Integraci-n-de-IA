@@ -10,14 +10,14 @@ const footerLinks = [
 
 export default function MinimalFooter() {
   return (
-    <Box component="footer" sx={{ bgcolor: '#ffffff', pt: 5, pb: 5, borderTop: '1px solid #f0f0f0' }}>
+    <Box component="footer" sx={{ bgcolor: '#002855', color: '#fff', pt: 5, pb: 5, borderTop: '2px solid #FFB800' }}>
       <Container maxWidth="lg">
         <Grid container spacing={4} sx={{ mb: 8 }}>
           {footerLinks.map((section) => (
-            <Grid item xs={12} sm={4} key={section.title}>
+            <Grid size={{ xs: 12, sm: 4 }} key={section.title}>
               <Typography 
                 variant="subtitle2" 
-                sx={{ letterSpacing: '0.2em', fontWeight: 700, mb: 3, fontSize: '0.7rem' }}
+                sx={{ letterSpacing: '0.2em', fontWeight: 700, mb: 3, fontSize: '0.7rem', color: '#FFB800' }}
               >
                 {section.title}
               </Typography>
@@ -28,8 +28,8 @@ export default function MinimalFooter() {
                     variant="caption" 
                     sx={{ 
                       cursor: 'pointer', 
-                      color: '#666', 
-                      '&:hover': { color: '#000' },
+                      color: 'rgba(255,255,255,0.75)', 
+                      '&:hover': { color: '#FFB800' },
                       transition: 'color 0.3s'
                     }}
                   >
@@ -43,7 +43,7 @@ export default function MinimalFooter() {
 
         {/* --- SECCIÓN DE PAGOS (NUEVA) --- */}
         <Box sx={{ mb: 6, textAlign: 'center' }}>
-          <Typography variant="caption" sx={{ color: '#999', letterSpacing: '0.1em', mb: 2, display: 'block' }}>
+          <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.6)', letterSpacing: '0.1em', mb: 2, display: 'block' }}>
             MEDIOS DE PAGO SEGUROS
           </Typography>
           <Stack 
@@ -78,23 +78,17 @@ export default function MinimalFooter() {
         </Box>
         {/* ------------------------------- */}
 
-        <Divider sx={{ mb: 5, opacity: 0.5 }} />
+        <Divider sx={{ mb: 5, opacity: 0.5, borderColor: 'rgba(255,255,255,0.2)' }} />
 
         <Box sx={{ textAlign: 'center' }}>
-          <Typography 
-            variant="h4" 
-            sx={{ 
-              fontFamily: 'serif', 
-              letterSpacing: '0.5em', 
-              fontWeight: 700, 
-              mb: 2,
-              fontSize: { xs: '1.5rem', md: '2rem' }
-            }}
-          >
-            'Sanchez
-          </Typography>
-          <Typography variant="caption" sx={{ color: '#999', display: 'block' }}>
-            © 2026 Horacio - Importaciones / Exportaciones
+          <Box
+            component="img"
+            src="/images/logo-shoesduoc.svg"
+            alt="ShoesDuoc — WearShop"
+            sx={{ height: 40, width: 'auto', mx: 'auto', mb: 2 }}
+          />
+          <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.7)', display: 'block' }}>
+            © 2026 WearShop — ShoesDuoc | Duoc UC Sede Puente Alto
           </Typography>
         </Box>
       </Container>
