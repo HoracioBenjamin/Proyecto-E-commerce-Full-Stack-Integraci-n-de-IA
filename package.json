@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:comprobantes": "node --conditions=react-server --test tests/comprobantes/*.test.mjs",
+    "comprobantes:config": "node scripts/comprobantes/check-config.mjs",
+    "comprobantes:procesar": "node scripts/comprobantes/run-job.mjs"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -22,12 +25,17 @@
     "framer-motion": "^12.34.1",
     "mercadopago": "^3.1.0",
     "next": "16.1.6",
+    "pdf-lib": "^1.17.1",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-markdown": "^10.1.0",
-    "swiper": "^12.1.2"
+    "resend": "^6.34.1",
+    "server-only": "^0.0.1",
+    "swiper": "^12.1.2",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "^0.5.10",
     "@tailwindcss/postcss": "^4",
     "@types/node": "25.2.3",
     "@types/react": "19.2.17",

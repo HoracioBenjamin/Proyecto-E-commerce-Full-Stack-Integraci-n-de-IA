@@ -127,11 +127,11 @@ export default function GucciNavbar() {
 
                   <Divider sx={{ my: '0 !important' }} />
 
-                  <MenuItem onClick={handleCloseUserMenu} sx={{ py: 1.5, fontSize: '0.9rem' }}>
-                    Mi Perfil
+                  <MenuItem component={Link} href="/cuenta" onClick={handleCloseUserMenu} sx={{ py: 1.5, fontSize: '0.9rem' }}>
+                    Mi cuenta
                   </MenuItem>
-                  <MenuItem onClick={handleCloseUserMenu} sx={{ py: 1.5, fontSize: '0.9rem' }}>
-                    Mis Pedidos
+                  <MenuItem component={Link} href="/cuenta/compras" onClick={handleCloseUserMenu} sx={{ py: 1.5, fontSize: '0.9rem' }}>
+                    Mis compras
                   </MenuItem>
 
                   <Divider sx={{ my: '0 !important' }} />

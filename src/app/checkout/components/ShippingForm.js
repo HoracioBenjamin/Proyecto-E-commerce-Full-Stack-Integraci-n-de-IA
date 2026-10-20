@@ -5,7 +5,7 @@ import { Paper, Typography, Box, Grid, TextField, Alert, Divider, FormControl, R
 //aca cargamos todas las variables o funciones que queremos pasar, como queremos pasar el precio de el envio por ejemplo
 //la pasaremos aca, como vemos que agregue preciosEnvio tambien lo tengo que agregar mas abajo en el front end
 export default function ShippingForm({ 
-  user, loadingUser, emailExiste, formData, handleChange, handleEmailBlur,
+  user, loadingUser, formData, handleChange,
   regionesBD, comunasFiltradas, handleRegionChange, tipoEnvio, handleTipoEnvioChange, 
   totalFinal, formatPrice, setStep, preciosEnvio
 }) {
@@ -16,52 +16,18 @@ export default function ShippingForm({
         {/* DATOS PERSONALES */}
         <Typography variant="subtitle2" sx={{ mb: 3, fontWeight: 700, letterSpacing: 1 }}>1. DATOS PERSONALES</Typography>
 
-        {loadingUser ? (
-          <Typography sx={{ color: 'gray', mb: 5 }}>Cargando...</Typography>
-        ) : user ? (
-          <Box sx={{ p: 2.5, bgcolor: '#f4f4f4', borderRadius: '6px', mb: 5, border: '1px dashed #ccc' }}>
-            <Grid container spacing={2}>
-              <Grid size={{ xs: 12, sm: 6 }}>
-                <Typography variant="caption" color="text.secondary">Nombre Completo</Typography>
-                <Typography sx={{ fontWeight: 600 }}>{formData.nombre || '—'} {formData.apellido || ''}</Typography>
-              </Grid>
-              <Grid size={{ xs: 12, sm: 6 }}>
-                <Typography variant="caption" color="text.secondary">RUT</Typography>
-                <Typography sx={{ fontWeight: 600 }}>{formData.rut || '—'}</Typography>
-              </Grid>
-              <Grid size={{ xs: 12, sm: 6 }}>
-                <Typography variant="caption" color="text.secondary">Correo Electrónico</Typography>
-                <Typography sx={{ fontWeight: 600 }}>{formData.email}</Typography>
-              </Grid>
-              <Grid size={{ xs: 12, sm: 6 }}>
-                <Typography variant="caption" color="text.secondary">Teléfono de Contacto</Typography>
-                <Typography sx={{ fontWeight: 600 }}>{formData.telefono || '—'}</Typography>
-              </Grid>
-            </Grid>
-            <Typography variant="caption" sx={{ display: 'block', mt: 2, color: 'green', fontWeight: 500 }}>
-              ✓ Has iniciado sesión. Tu compra quedará registrada en tu cuenta.
-            </Typography>
-          </Box>
-        ) : (
-          <Box>
-            {emailExiste && (
-              <Alert severity="info" sx={{ mb: 3, borderRadius: 0, borderLeft: '4px solid #0288d1' }}>
-                <Typography variant="body2">
-                  <strong>¡Ya tienes una cuenta con nosotros!</strong> Si prefieres autocompletar tus datos y acumular puntos, puedes ingresar a tu cuenta.
-                </Typography>
-              </Alert>
-            )}
-            <Grid container spacing={3} sx={{ mb: 5 }}>
-              <Grid size={12}>
-                <TextField fullWidth label="Correo Electrónico" name="email" type="email" variant="standard" value={formData.email} onChange={handleChange} onBlur={handleEmailBlur} required />
-              </Grid>
-              <Grid size={{ xs: 12, sm: 6 }}><TextField fullWidth label="Nombre" name="nombre" variant="standard" value={formData.nombre} onChange={handleChange} required /></Grid>
-              <Grid size={{ xs: 12, sm: 6 }}><TextField fullWidth label="Apellido" name="apellido" variant="standard" value={formData.apellido} onChange={handleChange} required /></Grid>
-              <Grid size={{ xs: 12, sm: 6 }}><TextField fullWidth label="RUT" name="rut" placeholder="Ej: 12.345.678-9" variant="standard" value={formData.rut} onChange={handleChange} required /></Grid>
-              <Grid size={{ xs: 12, sm: 6 }}><TextField fullWidth label="Teléfono" name="telefono" placeholder="+56 9" variant="standard" value={formData.telefono} onChange={handleChange} required /></Grid>
-            </Grid>
-          </Box>
+        {loadingUser ? <Typography sx={{ mb: 3 }}>Comprobando sesión…</Typography> : (
+          <Alert severity="info" sx={{ mb: 3 }}>
+            {user ? 'Tu compra quedará registrada en esta cuenta. Revisa los datos para el envío y el comprobante.' : 'Compras como invitado. Recibirás el comprobante por correo; inicia sesión antes de pagar si quieres verlo en tu historial.'}
+          </Alert>
         )}
+        <Grid container spacing={3} sx={{ mb: 5 }}>
+          <Grid size={12}><TextField fullWidth label="Correo Electrónico" name="email" type="email" variant="standard" value={formData.email} onChange={handleChange} required /></Grid>
+          <Grid size={{ xs: 12, sm: 6 }}><TextField fullWidth label="Nombre" name="nombre" variant="standard" value={formData.nombre} onChange={handleChange} required /></Grid>
+          <Grid size={{ xs: 12, sm: 6 }}><TextField fullWidth label="Apellido" name="apellido" variant="standard" value={formData.apellido} onChange={handleChange} required /></Grid>
+          <Grid size={{ xs: 12, sm: 6 }}><TextField fullWidth label="RUT" name="rut" variant="standard" value={formData.rut} onChange={handleChange} required /></Grid>
+          <Grid size={{ xs: 12, sm: 6 }}><TextField fullWidth label="Teléfono" name="telefono" variant="standard" value={formData.telefono} onChange={handleChange} required /></Grid>
+        </Grid>
 
         <Divider sx={{ my: 4 }} />
 

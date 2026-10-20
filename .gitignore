@@ -48,3 +48,6 @@ next-env.d.ts
 .env.production.local
 node_modules/
 .next/
+
+# Únicamente configuración ficticia compartible
+!.env.example

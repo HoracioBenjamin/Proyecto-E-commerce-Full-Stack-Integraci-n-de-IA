@@ -5,6 +5,8 @@ import { ChevronLeft } from '@mui/icons-material';
 import { useCart } from '../../../components/context/CartContext';
 import { useRouter } from 'next/navigation';
 import { supabase } from '../../../../lib/supabaseClient';
+import { SHIPPING_RATES } from '../../../../lib/checkout-policy.mjs';
+import { cartFingerprint } from '../../../../lib/cuenta/cart.mjs';
 
 // Importamos los 3 pasos visuales
 import OrderSummary from './OrderSummary';
@@ -21,19 +23,18 @@ export default function CheckoutClient() {
   const [regionesBD, setRegionesBD] = useState([]); 
   const [comunasBD, setComunasBD] = useState([]);   
   const [comunasFiltradas, setComunasFiltradas] = useState([]); 
-  const [emailExiste, setEmailExiste] = useState(false);
-  const [perfilVinculado, setPerfilVinculado] = useState(null);
+  const [paying, setPaying] = useState(false);
 
   // ESTADOS PARA CONTROLAR EL FLUJO es decir son variables que solo lo cargan en shipping form o en el component que se desee cargar
   const [step, setStep] = useState(1); 
   const [tipoEnvio, setTipoEnvio] = useState('domicilio'); 
-  const [metodoPago, setMetodoPago] = useState('webpay'); 
+  const [metodoPago, setMetodoPago] = useState('mercadopago'); 
   const [formData, setFormData] = useState({
     nombre: '', apellido: '', rut: '', email: '', telefono: '', 
     region: '', comuna: '', direccion: '', estacionMetro: ''
   });
 //estas variables estan manejando el precio de el envio y presencial que luego lo pasare a supabase
-const preciosEnvio = { domicilio: 10, presencial: 10 };
+const preciosEnvio = SHIPPING_RATES;
   const costoEnvio = preciosEnvio[tipoEnvio];
   const totalFinal = total + costoEnvio;
 
@@ -74,15 +75,6 @@ const preciosEnvio = { domicilio: 10, presencial: 10 };
   }, []);
 
   // FUNCIONES CONTROLADORAS
-  const handleEmailBlur = async () => {
-    if (user || !formData.email) return;
-    try {
-      const { data } = await supabase.from('perfiles').select('id').eq('email', formData.email.trim().toLowerCase()).maybeSingle();
-      if (data) { setEmailExiste(true); setPerfilVinculado(data.id); } 
-      else { setEmailExiste(false); setPerfilVinculado(null); }
-    } catch (err) { console.error(err); }
-  };
-
   const handleRegionChange = (e) => {
     const regionSeleccionada = e.target.value;
     setFormData({ ...formData, region: regionSeleccionada, comuna: '' });
@@ -94,25 +86,26 @@ const preciosEnvio = { domicilio: 10, presencial: 10 };
   const handleTipoEnvioChange = (e) => setTipoEnvio(e.target.value);
 
   const handleSubmitFinal = async () => {
-    const finalPerfilId = user ? user.id : (perfilVinculado ? perfilVinculado : null);
-    const payloadPedido = {
-      perfil_id: finalPerfilId, datos_envio: formData, tipo_envio: tipoEnvio,
-      costo_envio: costoEnvio, metodo_pago: metodoPago, productos: cart,
-      total_productos: total, total_pagar: totalFinal, metodo_invitado: !user 
-    };
-
-    if (metodoPago === 'mercadopago') {
-      try {
-        const response = await fetch('/api/checkout/mercadopago', {
-          method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payloadPedido),
-        });
-        const data = await response.json();
-        if (data.init_point) window.location.href = data.init_point;
-        else alert("No se pudo generar el enlace de pago de Mercado Pago.");
-      } catch (err) {
-        alert("Ocurrió un error de red al intentar procesar tu pago.");
-      }
-    }
+    if (paying || metodoPago !== 'mercadopago') return;
+    setPaying(true);
+    try {
+      const { data: { session }, error: authError } = await supabase.auth.getSession();
+      if (authError) throw new Error('No pudimos comprobar la sesión. Inicia sesión nuevamente.');
+      const headers = { 'Content-Type': 'application/json' };
+      if (session?.access_token) headers.Authorization = `Bearer ${session.access_token}`;
+      const response = await fetch('/api/checkout/mercadopago', {
+        method: 'POST', headers, body: JSON.stringify({
+          datos_envio: formData, tipo_envio: tipoEnvio, metodo_pago: metodoPago,
+          productos: cart, total_pagar: totalFinal
+        })
+      });
+      const data = await response.json();
+      if (!response.ok || !data.init_point) throw new Error(data.error?.message ?? 'No pudimos iniciar el pago.');
+      try { sessionStorage.setItem('duoc:checkout-pending', JSON.stringify({ pedidoId: String(data.pedido_id), cartKey: cartFingerprint(cart) })); } catch { /* Preferencia local no crítica. */ }
+      window.location.href = data.init_point;
+    } catch (error) {
+      alert(error.message || 'Ocurrió un error al iniciar el pago. Intenta nuevamente.');
+    } finally { setPaying(false); }
   };
 
   const formatPrice = (value) => {
@@ -158,8 +151,8 @@ const preciosEnvio = { domicilio: 10, presencial: 10 };
 
         {step === 2 && cart.length > 0 && (
           <ShippingForm 
-            user={user} loadingUser={loadingUser} emailExiste={emailExiste}
-            formData={formData} handleChange={handleChange} handleEmailBlur={handleEmailBlur}
+            user={user} loadingUser={loadingUser}
+            formData={formData} handleChange={handleChange}
             regionesBD={regionesBD} comunasFiltradas={comunasFiltradas} handleRegionChange={handleRegionChange}
             tipoEnvio={tipoEnvio} handleTipoEnvioChange={handleTipoEnvioChange}
             totalFinal={totalFinal} formatPrice={formatPrice} setStep={setStep}
@@ -171,7 +164,7 @@ const preciosEnvio = { domicilio: 10, presencial: 10 };
           <PaymentMethod 
             metodoPago={metodoPago} setMetodoPago={setMetodoPago}
             total={total} costoEnvio={costoEnvio} tipoEnvio={tipoEnvio}
-            totalFinal={totalFinal} formatPrice={formatPrice} handleSubmitFinal={handleSubmitFinal}
+            totalFinal={totalFinal} formatPrice={formatPrice} handleSubmitFinal={handleSubmitFinal} paying={paying}
           />
         )}
 

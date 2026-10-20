@@ -85,8 +85,10 @@ export default function BalancedHeader({ activeTab, setActiveTab }) {
                       fontSize: '0.95rem',
                       whiteSpace: 'nowrap',
                       letterSpacing: 1,
-                      transition: 'all 0.3s ease',
+                      transition: 'color 0.3s ease, transform 0.15s ease',
                       position: 'relative',
+                      '&:hover': { color: '#FFB800', transform: 'translateY(-2px)' },
+                      '&:active': { transform: 'translateY(0) scale(0.95)' },
                       '&::after': {
                         content: '""',
                         position: 'absolute',
@@ -111,7 +113,9 @@ export default function BalancedHeader({ activeTab, setActiveTab }) {
                   color: '#fff', 
                   bgcolor: 'rgba(255,255,255,0.05)',
                   p: 1.2,
-                  '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' }
+                  transition: 'transform 0.15s ease, background-color 0.2s ease',
+                  '&:hover': { bgcolor: 'rgba(255,255,255,0.15)', transform: 'scale(1.1)' },
+                  '&:active': { transform: 'scale(0.9)' }
                 }}
               >
                 <Badge 

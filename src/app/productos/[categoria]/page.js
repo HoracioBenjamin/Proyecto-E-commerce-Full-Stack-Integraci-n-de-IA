@@ -9,6 +9,9 @@ import ProductCard from '../../../components/categoria/productcard';
 import CategoryCover from '../../../components/categoria/CategoryCover';
 import { supabase } from '../../../../lib/supabaseClient';
 
+// Slugs que corresponden a géneros (tabla `generos`), no a categorías
+const GENERO_SLUGS = ['hombre', 'mujer', 'unisex'];
+
 export default function CategoriaPage() {
   const params = useParams();
   const router = useRouter();
@@ -20,12 +23,19 @@ export default function CategoriaPage() {
   const [categoryCover, setCategoryCover] = useState(null);
 
   const categoriaSlug = params.categoria;
-  const categoriaNombre = categoriaSlug 
-    ? categoriaSlug.replace(/-/g, ' ').toUpperCase() 
+  const esGenero = GENERO_SLUGS.includes(categoriaSlug);
+  const categoriaNombre = categoriaSlug
+    ? categoriaSlug.replace(/-/g, ' ').toUpperCase()
     : "COLECCIÓN";
 
   useEffect(() => {
     let cancelled = false;
+
+    // La portada solo aplica a páginas de categoría; los géneros no tienen portada
+    if (esGenero) {
+      setCategoryCover(null);
+      return () => { cancelled = true; };
+    }
 
     const fetchCover = async () => {
       try {
@@ -47,21 +57,37 @@ export default function CategoriaPage() {
 
     if (categoriaSlug) fetchCover();
     return () => { cancelled = true; };
-  }, [categoriaSlug]);
+  }, [categoriaSlug, esGenero]);
 
   // Carga de productos desde Supabase
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
       try {
-        const { data, error } = await supabase
-          .from('productos')
-          .select(`
-            *,
-            categorias!inner (slug),
-            stock (*) // <--- ESTO TRAERÁ TODAS LAS TALLAS Y CANTIDADES
-          `)
-          .eq('categorias.slug', categoriaSlug);
+        let data, error;
+
+        if (esGenero) {
+          // Página de género (/productos/hombre, /mujer, /unisex): filtra por la tabla generos
+          ({ data, error } = await supabase
+            .from('productos')
+            .select(`
+              *,
+              generos!inner ( nombre, slug ),
+              stock (*)
+            `)
+            .eq('generos.slug', categoriaSlug));
+        } else {
+          // Página de categoría clásica: filtra por categorias.slug
+          ({ data, error } = await supabase
+            .from('productos')
+            .select(`
+              *,
+              categorias!inner ( slug ),
+              generos ( nombre ),
+              stock (*)
+            `)
+            .eq('categorias.slug', categoriaSlug));
+        }
 
         if (error) throw error;
         setProductos(data || []);
@@ -73,7 +99,7 @@ export default function CategoriaPage() {
     };
 
     if (categoriaSlug) fetchProducts();
-  }, [categoriaSlug]);
+  }, [categoriaSlug, esGenero]);
 
   return (
     <Box component="main" sx={{ minHeight: '100vh', py: { xs: 4, md: 8 }, bgcolor: '#ffffff', position: 'relative' }}>

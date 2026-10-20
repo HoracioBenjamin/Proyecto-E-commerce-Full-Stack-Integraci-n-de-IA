@@ -97,10 +97,10 @@ export default function RegisterPage() {
       display: 'flex', 
       alignItems: 'flex-start', 
       justifyContent: 'center',
-      pt: 4, 
+      pt: 1, 
       pb: 6
     }}>
-      <Container maxWidth="sm" sx={{ mt: { xs: 2, md: 4 } }}>
+      <Container maxWidth="sm" sx={{ mt: { xs: 0, md: 1 } }}>
         <Paper 
           elevation={0} 
           sx={{ 

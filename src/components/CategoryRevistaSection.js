@@ -20,7 +20,7 @@ const MARCAS_FALLBACK = [
 ];
 
 export default function LookbookCarousel() {
-  const [marcasAbiertas, setMarcasAbiertas] = useState(false);
+  const [marcasAbiertas, setMarcasAbiertas] = useState(true);
   const [swiperInstance, setSwiperInstance] = useState(null);
   const [marcaActiva, setMarcaActiva] = useState(0);
   // Marcas desde Supabase (nombre, logo_url, imagen_portada); fallback local si falla
@@ -55,11 +55,13 @@ export default function LookbookCarousel() {
 
   return (
     <Box component="section" sx={{ 
-      width: '100vw', 
+      width: '100%',
+      maxWidth: '100%',
       bgcolor: '#fff', 
       marginBottom: 4,
       marginTop: 2,
-      overflow: 'hidden', // Crucial para que no se escape nada
+      overflow: 'hidden',
+      boxSizing: 'border-box',
       '& .swiper-button-next, & .swiper-button-prev': {
         color: '#002855',
         '&::after': { fontSize: '1.2rem', fontWeight: 'bold' }
@@ -169,7 +171,7 @@ export default function LookbookCarousel() {
             centeredSlides: true
           }
         }}
-        style={{ width: '100%', height: '85vh' }}
+        style={{ width: '100%', maxWidth: '100%', height: '85vh', overflow: 'hidden' }}
       >
         {marcas.map((item) => (
           <SwiperSlide key={item.id}>

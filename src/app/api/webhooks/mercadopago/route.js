@@ -1,72 +1,32 @@
-import { NextResponse } from 'next/server';
 import { MercadoPagoConfig, Payment } from 'mercadopago';
-import { supabase } from '../../../../../lib/supabaseClient'; 
+import { createServerAdmin } from '../../../../../lib/server/supabase';
+import { requiredSetting } from '../../../../../lib/server/config';
+import { privateJson, errorResponse, readJson, checkDatabase } from '../../../../../lib/server/http';
+import { verifyPaymentSignature, normalizePayment } from '../../../../../lib/comprobantes/payment.mjs';
+import { PurchaseError } from '../../../../../lib/comprobantes/errors.mjs';
 
-const accessToken = process.env.MERCADOPAGO_ACCESS_TOKEN;
-const client = accessToken ? new MercadoPagoConfig({ accessToken }) : null;
+export const runtime = 'nodejs';
 
 export async function POST(request) {
   try {
-    // 1. Leemos el cuerpo como texto plano primero para evitar que se rompa si viene vacío
-    const textBody = await request.text();
-    let body = {};
-    
-    if (textBody) {
-      body = JSON.parse(textBody);
-    }
-
-    // 2. Extraemos los parámetros de la URL (a veces Mercado Pago envía la alerta por aquí)
-    const { searchParams } = new URL(request.url);
-    
-    // El tipo de notificación puede venir en el JSON o en la URL
-    const type = body.type || body.topic || searchParams.get('type') || searchParams.get('topic');
-    // El ID del pago puede venir en el JSON o en la URL
-    const paymentId = body.data?.id || searchParams.get('data.id') || searchParams.get('id');
-
-    // Si es solo un ping de prueba o no es un pago, respondemos 200 OK para que MP esté feliz
-    if (type !== 'payment' || !paymentId) {
-      console.log("Webhook recibido pero no es un pago procesable (o es un ping).", { type, paymentId });
-      return NextResponse.json({ success: true }, { status: 200 });
-    }
-
-    // 3. Buscamos el pago oficial en los servidores de Mercado Pago por seguridad
-    const payment = new Payment(client);
-    const paymentData = await payment.get({ id: paymentId });
-
-    const estadoPago = paymentData.status; 
-    const pedidoId = paymentData.external_reference; 
-
-    if (!pedidoId) {
-      console.log("⚠️ Pago sin external_reference. Ignorando...");
-      return NextResponse.json({ received: true }, { status: 200 }); 
-    }
-
-    // 4. Traducimos el estado
-    let estadoSupabase = 'pendiente';
-    if (estadoPago === 'approved') {
-      estadoSupabase = 'exitoso';
-    } else if (estadoPago === 'rejected' || estadoPago === 'cancelled' || estadoPago === 'refunded') {
-      estadoSupabase = 'erroneo';
-    }
-
-    // 5. Actualizamos Supabase
-    const { error } = await supabase
-      .from('pedidos')
-      .update({ estado: estadoSupabase })
-      .eq('id', pedidoId);
-
-    if (error) {
-      console.error("❌ Error actualizando Supabase:", error.message);
-      return NextResponse.json({ error: 'Error de base de datos' }, { status: 500 });
-    }
-
-    console.log(`✅ Pedido ${pedidoId} actualizado correctamente a estado: ${estadoSupabase}`);
-
-    // 6. Respuesta final obligatoria
-    return NextResponse.json({ success: true }, { status: 200 });
-
-  } catch (error) {
-    console.error("❌ Error crítico en el Webhook:", error);
-    return NextResponse.json({ error: 'Error procesando el Webhook' }, { status: 500 });
-  }
+    const body = await readJson(request, 16_000);
+    const query = new URL(request.url).searchParams;
+    const type = body.type ?? body.topic ?? query.get('type') ?? query.get('topic');
+    if (type !== 'payment') return privateJson({ received: true });
+    const dataId = query.get('data.id');
+    if (!dataId || (body.data?.id && String(body.data.id) !== dataId)) throw new PurchaseError('INVALID_NOTIFICATION', 'La notificación no identifica un pago válido.', 400);
+    verifyPaymentSignature({
+      signature: request.headers.get('x-signature'), requestId: request.headers.get('x-request-id'),
+      dataId, secret: requiredSetting('MERCADOPAGO_WEBHOOK_SECRET')
+    });
+    const client = new MercadoPagoConfig({ accessToken: requiredSetting('MERCADOPAGO_ACCESS_TOKEN'), options: { timeout: 15000 } });
+    const payment = await new Payment(client).get({ id: dataId });
+    const event = normalizePayment(payment, {
+      environment: requiredSetting('MERCADOPAGO_ENVIRONMENT'), collectorId: requiredSetting('MERCADOPAGO_COLLECTOR_ID')
+    });
+    const { data, error } = await createServerAdmin().rpc('registrar_pago_comprobante', { p_pago: event });
+    checkDatabase(error);
+    // El cron procesa las tareas persistidas aunque el comprador cierre la web.
+    return privateJson({ received: true, estado: data?.estado });
+  } catch (error) { return errorResponse(error); }
 }

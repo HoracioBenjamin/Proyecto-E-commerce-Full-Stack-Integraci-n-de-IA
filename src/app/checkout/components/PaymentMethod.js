@@ -5,7 +5,7 @@ import { Paper, Typography, FormControl, RadioGroup, Box, FormControlLabel, Radi
 
 export default function PaymentMethod({ 
   metodoPago, setMetodoPago, total, costoEnvio, tipoEnvio, 
-  totalFinal, formatPrice, handleSubmitFinal 
+  totalFinal, formatPrice, handleSubmitFinal, paying = false 
 }) {
 
   // Definimos los estilos del botón dinámicamente según la plataforma seleccionada
@@ -113,7 +113,8 @@ export default function PaymentMethod({
       <Button 
         fullWidth 
         variant="contained" 
-        onClick={handleSubmitFinal} 
+        onClick={handleSubmitFinal}
+        disabled={paying || !esMercadoPago} 
         sx={buttonStyles}
         startIcon={esMercadoPago ? (
           <Box
@@ -136,7 +137,7 @@ export default function PaymentMethod({
           </Box>
         ) : null}
       >
-        {esMercadoPago ? 'Pagar con Mercado Pago' : 'PROXIMAMENTE'}
+        {paying ? 'Preparando pago…' : esMercadoPago ? 'Pagar con Mercado Pago' : 'PRÓXIMAMENTE'}
       </Button>
     </Paper>
   );

@@ -65,10 +65,10 @@ export default function LoginPage() {
       display: 'flex', 
       alignItems: 'flex-start', 
       justifyContent: 'center',
-      pt: 4, 
+      pt: 1, 
       pb: 4
     }}>
-      <Container maxWidth="xs" sx={{ mt: { xs: 2, md: 4 } }}>
+      <Container maxWidth="xs" sx={{ mt: { xs: 0, md: 1 } }}>
         <Paper 
           elevation={0} 
           sx={{ 
