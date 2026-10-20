@@ -1,27 +1,28 @@
 "use client";
 import React from 'react';
 import { Select, MenuItem, Drawer, Box, Typography, IconButton, List, Divider, Button, Stack } from '@mui/material';
-import { 
-  Close as CloseIcon, 
-  Add as AddIcon, 
-  Remove as RemoveIcon, 
-  DeleteOutline as DeleteIcon 
+import {
+  Close as CloseIcon,
+  Add as AddIcon,
+  Remove as RemoveIcon,
+  ShoppingBagOutlined as ShoppingBagIcon,
+  DeleteOutline as DeleteIcon
 } from '@mui/icons-material';
 import { useCart } from '../components/context/CartContext';
 import { useRouter } from 'next/navigation';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 export default function CartDrawer() {
-  const { 
-    cart, 
-    isCartOpen, 
-    toggleCart, 
-    updateQuantity, 
-    removeFromCart, 
-    updateSize, 
-    total 
+  const {
+    cart,
+    isCartOpen,
+    toggleCart,
+    updateQuantity,
+    removeFromCart,
+    updateSize,
+    total
   } = useCart();
-  
+
   const router = useRouter();
 
   const handleCheckout = () => {
@@ -33,7 +34,7 @@ export default function CartDrawer() {
   const formatPrice = (value) => {
     const numero = Number(value);
     if (isNaN(numero)) return '$0';
-    
+
     return new Intl.NumberFormat('es-CL', {
       style: 'currency',
       currency: 'CLP',
@@ -42,88 +43,112 @@ export default function CartDrawer() {
   };
 
   return (
-    <Drawer 
-      anchor="right" 
-      open={isCartOpen} 
+    <Drawer
+      anchor="right"
+      open={isCartOpen}
       onClose={() => toggleCart(false)}
-      PaperProps={{ 
-        sx: { 
-          width: { xs: '100%', sm: '450px' }, 
-          display: 'flex', 
+      PaperProps={{
+        sx: {
+          width: { xs: '100%', sm: '460px' },
+          maxWidth: '100vw',
+          color: '#002855',
+          bgcolor: '#F2F4F7',
+          fontFamily: 'inherit',
+          '& .MuiTypography-root, & .MuiButton-root, & .MuiInputBase-root, & .MuiMenuItem-root': { fontFamily: 'inherit' },
+          display: 'flex',
           flexDirection: 'column',
-          borderRadius: 0
-        } 
+          borderRadius: 0,
+          boxShadow: '-12px 0 48px rgba(0,40,85,0.15)'
+        }
       }}
     >
       {/* HEADER */}
-      <Box sx={{ p: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Typography variant="h6" sx={{ letterSpacing: '2px', fontWeight: 600, fontFamily: 'serif' }}>
-          MI BOLSA ({cart.length})
-        </Typography>
-        <IconButton onClick={() => toggleCart(false)}>
+      <Box sx={{ px: { xs: 2.5, sm: 3 }, py: 2.5, display: 'flex', justifyContent: 'space-between', alignItems: 'center', bgcolor: '#002855', color: '#fff', borderBottom: '2px solid #FFB800', flexShrink: 0 }}>
+        <Stack direction="row" spacing={1.5} alignItems="center">
+          <ShoppingBagIcon sx={{ color: '#FFB800', fontSize: 28 }} />
+          <Box>
+            <Typography variant="h6" sx={{ fontWeight: 700, letterSpacing: '0.02em' }}>
+              Mi bolsa
+            </Typography>
+            <Typography sx={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.75)' }}>
+              {cart.length} {cart.length === 1 ? 'producto' : 'productos'}
+            </Typography>
+          </Box>
+        </Stack>
+        <IconButton aria-label="Cerrar bolsa de compras" onClick={() => toggleCart(false)} sx={{ color: '#fff', bgcolor: 'rgba(255,255,255,0.08)', '&:hover': { bgcolor: 'rgba(255,255,255,0.16)' } }}>
           <CloseIcon />
         </IconButton>
       </Box>
-      <Divider />
 
       {/* LISTA DE PRODUCTOS */}
-      <List sx={{ flexGrow: 1, overflowY: 'auto', p: 0 }}>
+      <List component="div" sx={{ flexGrow: 1, minHeight: 0, overflowY: 'auto', p: { xs: 2, sm: 2.5 } }}>
         {cart.length === 0 ? (
-          <Box sx={{ textAlign: 'center', mt: 10, px: 3 }}>
-            <Typography sx={{ color: 'gray', mb: 3, fontFamily: 'serif' }}>
+          <Box sx={{ textAlign: 'center', py: 8, px: 1 }}>
+            <Box sx={{ width: 80, height: 80, mx: 'auto', mb: 3, borderRadius: '50%', bgcolor: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <ShoppingBagIcon sx={{ fontSize: 36, color: '#002855' }} />
+            </Box>
+            <Typography sx={{ color: '#002855', fontWeight: 600, fontSize: '1.1rem', mb: 3 }}>
               Tu bolsa está vacía.
             </Typography>
-            <Button 
-              variant="outlined" 
-              color="inherit" 
+            <Button
+              variant="outlined"
+              color="inherit"
               onClick={() => toggleCart(false)}
-              sx={{ borderRadius: 0, letterSpacing: '1px' }}
+              sx={{ borderRadius: 2, px: 3, py: 1.25, color: '#002855', borderColor: '#002855', fontWeight: 600, textTransform: 'none', '&:hover': { borderColor: '#002855', bgcolor: 'rgba(0,40,85,0.05)' } }}
             >
-              CONTINUAR COMPRANDO
+              Continuar comprando
             </Button>
           </Box>
         ) : (
           cart.map((item) => (
-            <Box key={`${item.id}-${item.size}`} sx={{ p: 3, borderBottom: '1px solid #eee' }}>
-              <Box sx={{ display: 'flex', gap: 2, position: 'relative', minHeight: 130 }}>
-                
+            <Box key={`${item.id}-${item.size}`} sx={{ p: 2, mb: 2, bgcolor: '#fff', border: '1px solid rgba(0,40,85,0.06)', borderRadius: 2, boxShadow: '0 2px 8px rgba(0,40,85,0.03)' }}>
+              <Box sx={{ display: 'flex', gap: 2, position: 'relative', minHeight: 140 }}>
+
                 {/* Imagen del producto */}
-                <Box 
-                  component="img" 
-                  src={item.img} 
-                  sx={{ width: 100, height: 130, objectFit: 'cover', borderRadius: '2px', bgcolor: '#f5f5f5' }} 
+                <Box
+                  component="img"
+                  src={item.img}
+                  alt={item.name}
+                  sx={{ width: { xs: 80, sm: 100 }, height: 120, flexShrink: 0, objectFit: 'cover', borderRadius: 1.5, bgcolor: '#F2F4F7' }}
                 />
-                
+
                 {/* Info del producto (Contenedor principal de texto) */}
-                <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
-                  
+                <Box sx={{ flexGrow: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
+
                   {/* Fila superior: Nombre y Botón Eliminar */}
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                    <Typography sx={{ fontWeight: 700, fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.5px', pr: 3 }}>
+                    <Typography sx={{ fontWeight: 600, fontSize: '0.9rem', lineHeight: 1.4, color: '#002855', pr: 3, overflowWrap: 'anywhere' }}>
                       {item.name}
                     </Typography>
-                    <IconButton 
-                      size="small" 
+                    <IconButton
+                      size="small"
+                      aria-label={`Eliminar ${item.name}`}
                       onClick={() => removeFromCart(item.id, item.size)}
-                      sx={{ position: 'absolute', right: -8, top: -8 }}
+                      sx={{ position: 'absolute', right: -8, top: -8, color: '#667085', '&:hover': { color: '#d32f2f', bgcolor: '#fff1f0' } }}
                     >
-                      <DeleteIcon fontSize="small" sx={{ color: '#ccc' }} />
+                      <DeleteIcon fontSize="small" />
                     </IconButton>
                   </Box>
 
                   {/* Selector de Talla con diseño moderno */}
                   <Stack direction="row" alignItems="center" spacing={1} sx={{ mt: 1 }}>
-                    <Typography sx={{ fontSize: '0.65rem', color: '#888', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                    <Typography sx={{ fontSize: '0.8rem', color: '#667085' }}>
                       Talla
                     </Typography>
                     <Select
                       value={item.size}
+                      inputProps={{ 'aria-label': `Talla de ${item.name}` }}
                       onChange={(e) => updateSize(item.id, item.size, e.target.value)}
                       variant="standard"
                       disableUnderline
                       IconComponent={ExpandMoreIcon}
                       sx={{
-                        fontSize: '0.8rem',
+                        fontSize: '0.85rem',
+                        color: '#002855',
+                        bgcolor: '#F2F4F7',
+                        borderRadius: 1,
+                        px: 1,
+                        py: 0.5,
                         fontWeight: 600,
                         '& .MuiSelect-select': { py: 0, pl: 0.5, pr: '18px !important', display: 'flex', alignItems: 'center' },
                         '& .MuiSvgIcon-root': { fontSize: '1rem', color: '#002855', right: -4 }
@@ -154,22 +179,24 @@ export default function CartDrawer() {
                   </Stack>
 
                   {/* Fila Inferior (Posicionada abajo con mt: 'auto') */}
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', mt: 'auto' }}>
-                    
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 1, pt: 2, mt: 'auto' }}>
+
                     {/* Selector de Cantidad */}
-                    <Box sx={{ 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      border: '1px solid #e0e0e0', 
+                    <Box sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      border: '1px solid #dce2ea',
+                      borderRadius: 1.5,
+                      overflow: 'hidden',
                       bgcolor: '#fff'
                     }}>
-                      <IconButton size="small" onClick={() => updateQuantity(item.id, item.size, -1)} sx={{ p: 0.5 }}>
+                      <IconButton aria-label={`Reducir cantidad de ${item.name}`} size="small" onClick={() => updateQuantity(item.id, item.size, -1)} sx={{ p: 1, color: '#002855' }}>
                         <RemoveIcon sx={{ fontSize: '0.8rem' }} />
                       </IconButton>
-                      <Typography sx={{ px: 1.5, fontSize: '0.75rem', fontWeight: 700 }}>
+                      <Typography sx={{ px: 1, fontSize: '0.85rem', fontWeight: 700 }}>
                         {item.quantity}
                       </Typography>
-                      <IconButton size="small" onClick={() => updateQuantity(item.id, item.size, 1)} sx={{ p: 0.5 }}>
+                      <IconButton aria-label={`Aumentar cantidad de ${item.name}`} size="small" onClick={() => updateQuantity(item.id, item.size, 1)} sx={{ p: 1, color: '#002855' }}>
                         <AddIcon sx={{ fontSize: '0.8rem' }} />
                       </IconButton>
                     </Box>
@@ -178,17 +205,17 @@ export default function CartDrawer() {
                     <Box sx={{ textAlign: 'right' }}>
                       {item.en_oferta ? (
                         <Stack spacing={0} alignItems="flex-end">
-                          <Typography sx={{ 
-                            fontSize: '0.7rem', 
-                            color: 'gray', 
-                            textDecoration: 'line-through' 
+                          <Typography sx={{
+                            fontSize: '0.7rem',
+                            color: 'gray',
+                            textDecoration: 'line-through'
                           }}>
                             {formatPrice(item.precio_normal * item.quantity)}
                           </Typography>
-                          <Typography sx={{ 
-                            fontWeight: 700, 
-                            fontSize: '0.9rem', 
-                            color: '#d32f2f' 
+                          <Typography sx={{
+                            fontWeight: 700,
+                            fontSize: '0.9rem',
+                            color: '#d32f2f'
                           }}>
                             {formatPrice(item.price_raw * item.quantity)}
                           </Typography>
@@ -209,92 +236,94 @@ export default function CartDrawer() {
       </List>
 
       {/* FOOTER */}
-{cart.length > 0 && (
-  <Box sx={{ p: 3, borderTop: '1px solid #eee', bgcolor: 'white' }}>
-    
-    {/* DESGLOSE DE COSTOS */}
-    <Stack spacing={1} sx={{ mb: 3 }}>
-      {/* Subtotal (Suma de precios base) */}
-      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Typography sx={{ color: 'gray', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '1px' }}>
-          Subtotal
-        </Typography>
-        <Typography sx={{ fontWeight: 600, fontSize: '0.9rem' }}>
-          {formatPrice(cart.reduce((acc, item) => acc + ((item.precio_normal || item.price_raw) * item.quantity), 0))}
-        </Typography>
-      </Box>
+      {cart.length > 0 && (
+        <Box sx={{ p: { xs: 2.5, sm: 3 }, pb: 'max(20px, env(safe-area-inset-bottom))', flexShrink: 0, borderTop: '1px solid #dce2ea', bgcolor: '#fff', boxShadow: '0 -4px 20px rgba(0,40,85,0.04)' }}>
 
-      {/* Descuentos (Diferencia de ofertas) */}
-      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Typography sx={{ color: 'gray', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '1px' }}>
-          Descuentos
-        </Typography>
-        <Typography sx={{ color: '#d32f2f', fontWeight: 600, fontSize: '0.9rem' }}>
-          {(() => {
-            const ahorro = cart.reduce((acc, item) => {
-              if (item.en_oferta) {
-                return acc + ((item.precio_normal - item.price_raw) * item.quantity);
-              }
-              return acc;
-            }, 0);
-            return ahorro > 0 ? `-${formatPrice(ahorro)}` : formatPrice(0);
-          })()}
-        </Typography>
-      </Box>
+          {/* DESGLOSE DE COSTOS */}
+          <Stack spacing={1} sx={{ mb: 3 }}>
+            {/* Subtotal (Suma de precios base) */}
+            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Typography sx={{ color: '#667085', fontSize: '0.85rem' }}>
+                Subtotal
+              </Typography>
+              <Typography sx={{ fontWeight: 600, fontSize: '0.9rem' }}>
+                {formatPrice(cart.reduce((acc, item) => acc + ((item.precio_normal || item.price_raw) * item.quantity), 0))}
+              </Typography>
+            </Box>
 
-      <Divider sx={{ my: 1 }} />
+            {/* Descuentos (Diferencia de ofertas) */}
+            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Typography sx={{ color: '#667085', fontSize: '0.85rem' }}>
+                Descuentos
+              </Typography>
+              <Typography sx={{ color: '#d32f2f', fontWeight: 600, fontSize: '0.9rem' }}>
+                {(() => {
+                  const ahorro = cart.reduce((acc, item) => {
+                    if (item.en_oferta) {
+                      return acc + ((item.precio_normal - item.price_raw) * item.quantity);
+                    }
+                    return acc;
+                  }, 0);
+                  return ahorro > 0 ? `-${formatPrice(ahorro)}` : formatPrice(0);
+                })()}
+              </Typography>
+            </Box>
 
-      {/* Total Final */}
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Typography sx={{ fontWeight: 700, color: '#002855', textTransform: 'uppercase', fontSize: '0.9rem', letterSpacing: '1px' }}>
-          Total Estimado
-        </Typography>
-        <Typography sx={{ fontWeight: 800, fontSize: '1.3rem' }}>
-          {formatPrice(total)}
-        </Typography>
-      </Box>
-    </Stack>
-    
-    {/* BOTONES DE ACCIÓN */}
-    <Stack spacing={2}>
-      {/* Botón Finalizar */}
-      <Button 
-        fullWidth 
-        variant="contained" 
-        onClick={handleCheckout}
-        sx={{ 
-          bgcolor: '#002855', 
-          color: 'white', 
-          py: 2, 
-          borderRadius: 0, 
-          fontWeight: 700,
-          letterSpacing: '2px',
-          '&:hover': { bgcolor: '#001E42' } 
-        }}
-      >
-        FINALIZAR COMPRA
-      </Button>
+            <Divider sx={{ my: 1 }} />
 
-      {/* Botón/Texto Continuar Comprando */}
-      <Button 
-        fullWidth 
-        variant="text" 
-        onClick={() => toggleCart(false)}
-        sx={{ 
-          color: 'gray', 
-          fontSize: '0.75rem', 
-          fontWeight: 600, 
-          letterSpacing: '1px',
-          textTransform: 'uppercase',
-          textDecoration: 'underline',
-          '&:hover': { bgcolor: 'transparent', color: '#002855' } 
-        }}
-      >
-        Continuar comprando
-      </Button>
-    </Stack>
-  </Box>
-)}
+            {/* Total Final */}
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <Typography sx={{ fontWeight: 600, color: '#002855', fontSize: '0.95rem' }}>
+                Total estimado
+              </Typography>
+              <Typography sx={{ fontWeight: 700, fontSize: '1.4rem', color: '#002855' }}>
+                {formatPrice(total)}
+              </Typography>
+            </Box>
+          </Stack>
+
+          {/* BOTONES DE ACCIÓN */}
+          <Stack spacing={2}>
+            {/* Botón Finalizar */}
+            <Button
+              fullWidth
+              variant="contained"
+              onClick={handleCheckout}
+              sx={{
+                bgcolor: '#002855',
+                color: 'white',
+                py: 1.75,
+                borderRadius: 2,
+                boxShadow: 'none',
+                borderBottom: '3px solid #FFB800',
+                textTransform: 'none',
+                fontWeight: 700,
+                fontSize: '0.95rem',
+                '&:hover': { bgcolor: '#001E42' }
+              }}
+            >
+              Finalizar compra
+            </Button>
+
+            {/* Botón/Texto Continuar Comprando */}
+            <Button
+              fullWidth
+              variant="text"
+              onClick={() => toggleCart(false)}
+              sx={{
+                color: '#002855',
+                fontSize: '0.85rem',
+                fontWeight: 600,
+                textTransform: 'none',
+                borderRadius: 2,
+                '&:hover': { bgcolor: 'transparent', color: '#002855' }
+              }}
+            >
+              Continuar comprando
+            </Button>
+          </Stack>
+        </Box>
+      )}
     </Drawer>
   );
 }

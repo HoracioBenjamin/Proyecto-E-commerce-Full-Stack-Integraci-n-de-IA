@@ -5,7 +5,8 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import { useParams, useRouter } from 'next/navigation';
 import { useCart } from '../../../components/context/CartContext';
-import ProductCard from '../../../components/categoria/productcard'; 
+import ProductCard from '../../../components/categoria/productcard';
+import CategoryCover from '../../../components/categoria/CategoryCover';
 import { supabase } from '../../../../lib/supabaseClient';
 
 export default function CategoriaPage() {
@@ -16,11 +17,37 @@ export default function CategoriaPage() {
   // Estados para los datos reales
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [categoryCover, setCategoryCover] = useState(null);
 
   const categoriaSlug = params.categoria;
   const categoriaNombre = categoriaSlug 
     ? categoriaSlug.replace(/-/g, ' ').toUpperCase() 
     : "COLECCIÓN";
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const fetchCover = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('categorias')
+          .select('imagen_portada')
+          .eq('slug', categoriaSlug)
+          .maybeSingle();
+
+        if (error) throw error;
+        if (!cancelled) setCategoryCover({ slug: categoriaSlug, image: data?.imagen_portada });
+      } catch (err) {
+        if (!cancelled) {
+          setCategoryCover(null);
+          console.error('Error cargando portada de categoría:', err.message);
+        }
+      }
+    };
+
+    if (categoriaSlug) fetchCover();
+    return () => { cancelled = true; };
+  }, [categoriaSlug]);
 
   // Carga de productos desde Supabase
   useEffect(() => {
@@ -100,6 +127,12 @@ export default function CategoriaPage() {
             </Badge>
           </IconButton>
         </Box>
+
+        <CategoryCover
+          key={categoriaSlug}
+          cover={categoryCover?.slug === categoriaSlug ? categoryCover.image : null}
+          name={categoriaNombre}
+        />
 
         {/* REJILLA DE PRODUCTOS (DINÁMICA) */}
         {loading ? (

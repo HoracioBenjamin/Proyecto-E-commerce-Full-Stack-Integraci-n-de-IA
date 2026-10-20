@@ -1,5 +1,4 @@
 // page.js
-import ProductExplorer from '../components/CategoryHeader';
 import CategoryGrid from '../components/CategoryGrid';
 import ProductSelection from '../components/CategoryProductSelection';
 import Marque from '../components/marque';
@@ -12,7 +11,6 @@ import AiAssistant from '../components/IA/AiAssistant';
 export default function Home() {
   return (
     <>
-      <ProductExplorer />
       <CategoryGrid />
 
       <Marque />
